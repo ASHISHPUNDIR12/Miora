@@ -7,17 +7,133 @@ datasource db {
   provider = "postgresql"
 }
 
+enum VoteType {
+  UPVOTE
+}
+
 model User {
-  id            String          @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String          @unique
+  email         String    @unique
   emailVerified DateTime?
   image         String?
-  accounts      Account[]
-  sessions      Session[]
+  password      String?
+
+  // Timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  password  String?
+
+  // Relations
+  accounts Account[]
+  sessions Session[]
+  question Question[]
+  answer   Answer[]
+  blog     Blog[]
+  comment  Comment[]
+  votes    Vote[]
+
+  @@index([email])
+}
+
+model Answer {
+  id        String    @id @default(cuid())
+  content   String    @db.Text
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  // user who created answer
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // comment on this answer
+  comment   Comment[]
+
+  // answer to which question
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  votes      Vote[]
+  votesCount Int      @default(0)
+
+  @@index([userId])
+  @@index([questionId])
+  @@index([createdAt])
+}
+
+model Question {
+  id        String   @id @default(cuid())
+  question  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // user who created question
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  answer    Answer[]
+  votes     Vote[]
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Blog {
+  id        String    @id @default(cuid())
+  title     String
+  content   String    @db.Text
+  imageUrl  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  userId    String
+  // user who created blog
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  votes     Vote[]
+  comment   Comment[]
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  // user who commented
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // comment on blog (optional)
+  blogId    String?
+  blog      Blog?    @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  // comment on answer (optional)
+  answerId  String?
+  answer    Answer?  @relation(fields: [answerId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([blogId])
+  @@index([answerId])
+}
+
+model Vote {
+  id   String   @id @default(cuid())
+  type VoteType
+
+  // Who voted
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Vote on Answer (optional)
+  answerId String?
+  answer   Answer? @relation(fields: [answerId], references: [id], onDelete: Cascade)
+
+  // Vote on Blog (optional)
+  blogId String?
+  blog   Blog?   @relation(fields: [blogId], references: [id], onDelete: Cascade)
+
+  // vote on question (optional)
+  questionId String?
+  question   Question? @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, answerId])
+  @@unique([userId, blogId])
+  @@unique([userId, questionId])
+  @@index([userId])
 }
 
 model Account {
@@ -58,6 +174,3 @@ model VerificationToken {
 
   @@id([identifier, token])
 }
-
-
-
