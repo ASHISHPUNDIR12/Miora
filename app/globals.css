@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f5f2ea;
+  --background: #ece8db;
   --foreground: #171717;
   --loginleft: #ece8db;
   --logintext: #2c2c2c;
@@ -18,18 +18,19 @@
   --font-sourceserif: var(--font-source-serif);
 }
 
+.navlink {
+  @apply text-amber-950 transition-all duration-200 hover:translate-y-[-1px] hover:text-amber-950/50;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
 }
-
+/* f5f2ea */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family:
-    var(--font-inter), Arial,
-    Helvetica,
-    sans-serif;
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -26,8 +27,15 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning lang="en">
-      <body className={`${inter.variable} ${sourceSerif.variable} antialiased`}>
-        {children}
+      <body
+        className={`${inter.variable} ${sourceSerif.variable} relative antialiased`}
+      >
+        <div className="relative mx-auto max-w-270">
+          <Navbar />
+          <div className="absolute left-0 h-screen w-px bg-linear-to-b from-neutral-300/50 via-neutral-300 to-transparent"></div>
+          <div className="absolute right-0 h-screen w-px bg-linear-to-b from-neutral-300/50 via-neutral-300 to-transparent"></div>
+          {children}
+        </div>
       </body>
     </html>
   );

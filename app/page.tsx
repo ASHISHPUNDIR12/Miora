@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
-import GithubSignin from "@/components/githubSignin";
-import SignIn from "@/components/SignIn";
-import SignOut from "@/components/SignOut";
+import Hero from "@/components/Hero";
+
 import { redirect } from "next/navigation";
 
 export default async function Home() {
@@ -12,9 +11,7 @@ export default async function Home() {
   }
   return (
     <div>
-      this is the user
-      {userName}
-      <SignOut />
+      <Hero />
     </div>
   );
 }
