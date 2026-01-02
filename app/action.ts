@@ -2,7 +2,9 @@
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
 import { SignUpSchema } from "@/lib/authSchema";
-import { signIn } from "@/auth";
+import { auth, signIn } from "@/auth";
+import { revalidatePath } from "next/cache";
+
 
 export async function SignUp(formData: FormData) {
   // get details from the form
@@ -68,6 +70,34 @@ export async function SignUp(formData: FormData) {
     return {
       success: false,
       message: "Something went wrong. Please try again.",
+    };
+  }
+}
+
+export async function AskQuestion(prevState: any, formData: FormData) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) {
+    return { success: false, message: "User not found" };
+  }
+  const textarea = formData.get("textarea") as string;
+  try {
+    await prisma.question.create({
+      data: {
+        question: textarea,
+        userId: userId,
+      },
+    });
+    revalidatePath("/ask");
+    return {
+      success: true,
+      message: "Question posted succesfully",
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      message: "Failed to post question",
     };
   }
 }
