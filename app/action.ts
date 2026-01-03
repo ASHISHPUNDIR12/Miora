@@ -4,7 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { SignUpSchema } from "@/lib/authSchema";
 import { auth, signIn } from "@/auth";
 import { revalidatePath } from "next/cache";
-
+import { success } from "zod";
+import { error } from "console";
 
 export async function SignUp(formData: FormData) {
   // get details from the form
@@ -98,6 +99,39 @@ export async function AskQuestion(prevState: any, formData: FormData) {
     return {
       success: false,
       message: "Failed to post question",
+    };
+  }
+}
+
+export async function postAnswer(prevState: any, formData: FormData) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) {
+    return {
+      success: false,
+      error: "user not found",
+    };
+  }
+  const answer = formData.get("answer") as string;
+  const questionId = formData.get("questionId") as string;
+  try {
+    await prisma.answer.create({
+      data: {
+        userId: userId,
+        content: answer,
+        questionId: questionId,
+      },
+    });
+    revalidatePath(`ask/${questionId}`);
+    return {
+      success: true,
+      message: "Answer posted succesfully",
+    };
+  } catch (err) {
+    console.log("This is the error while posting answer", err);
+    return {
+      success: false,
+      error: "failed to post answer ",
     };
   }
 }
