@@ -1,39 +1,24 @@
-import React from "react";
 
-const page = () => {
+
+import { auth } from "@/auth";
+import AskForm from "@/components/AskForm";
+import YourQuestions from "@/components/YourQuestions";
+import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
+
+const page = async () => {
+  const session = await auth()
+  if (!session) redirect("/signin")
+  const askedQuestionData = await prisma.question.findMany({
+    where: {
+      userId: session.user?.id
+    }
+  })
+  console.log(askedQuestionData)
   return (
-    <div className="mt-20 text-center">
-      <h1 className="text-2xl font-bold">Ask a thoughtful question</h1>
-      <p className="mt-3 text-neutral-500">
-        Your question helps others learn so be clear and specific.
-      </p>
-      <div className="mx-auto mt-2 h-px w-110 bg-neutral-400"></div>
-
-      <form className="mx-auto mt-10 max-w-2xl">
-        <div className="space-y-4">
-          {/* Description Textarea */}
-          <div>
-            <textarea
-              placeholder="Start your question with 'What','How','Why',etc  "
-              rows={6}
-              className="w-full resize-none rounded-lg border border-neutral-300 bg-neutral-100 px-4 pt-4 transition-all placeholder:text-neutral-400 focus:border-neutral-400 focus:outline-none"
-            />
-            <p className="mt-2 text-sm text-neutral-500">
-              Be specific and detailed to get better answers
-            </p>
-          </div>
-          <div className="flex gap-3 pt-4">
-            <button
-              type="submit"
-              className="flex-1 rounded-lg bg-amber-900 px-6 py-3 font-medium text-white transition-all duration-200 hover:bg-amber-800 active:scale-95 disabled:opacity-50"
-            >
-              Post Your Question
-            </button>
-          </div>
-        </div>
-      </form>
-      <div className="mt-10 h-px w-full bg-neutral-400"></div>
-      <h1 className="mt-5" >Your asked questions</h1>
+    <div>
+      <AskForm />
+      <YourQuestions askedQuestionData={askedQuestionData} />
     </div>
   );
 };
