@@ -1,0 +1,14 @@
+{
+  "editor.inlineSuggest.enabled": false,
+  "editor.inlayHints.enabled": "off",
+  "editor.startInlineCompletionsOnKeystroke": false,
+  "antigravity.inlineSuggestions.enabled": false,
+  "antigravity.ghostText.enabled": false,
+  "github.copilot.enable": {
+    "*": false
+  },
+  "javascript.inlayHints.parameterNames.enabled": "none",
+  "javascript.inlayHints.parameterTypes.enabled": false,
+  "typescript.inlayHints.parameterNames.enabled": "none",
+  "typescript.inlayHints.parameterTypes.enabled": false
+}

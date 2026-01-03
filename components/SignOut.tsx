@@ -6,7 +6,7 @@ const SignOut = () => {
     <div>
       <button
         onClick={async () => {
-          await signOut();
+          await signOut({callbackUrl : "/"});
         }}
       >
         sign out{" "}
