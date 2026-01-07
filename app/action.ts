@@ -4,7 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { SignUpSchema } from "@/lib/authSchema";
 import { auth, signIn } from "@/auth";
 import { revalidatePath } from "next/cache";
-
+import { success } from "zod";
+import { error } from "console";
 
 export async function SignUp(formData: FormData) {
   // get details from the form
@@ -135,3 +136,35 @@ export async function postAnswer(prevState: any, formData: FormData) {
   }
 }
 
+export default async function deleteQuestion(questionId: string | null) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return {
+      success: false,
+      error: "you must be log in to delete questions ",
+    };
+  }
+  if (!questionId) {
+    return {
+      success: false,
+      error: "Question does not exist",
+    };
+  }
+  try {
+    await prisma.question.delete({
+      where: {
+        id: questionId,
+      },
+    });
+    revalidatePath("/ask");
+    return {
+      success: true,
+      message: "question deleted successfully ",
+    };
+  } catch (err) {
+    return {
+      success: false,
+      error: err,
+    };
+  }
+}
