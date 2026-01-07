@@ -4,8 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { SignUpSchema } from "@/lib/authSchema";
 import { auth, signIn } from "@/auth";
 import { revalidatePath } from "next/cache";
-import { success } from "zod";
-import { error } from "console";
+
 
 export async function SignUp(formData: FormData) {
   // get details from the form
@@ -135,3 +134,4 @@ export async function postAnswer(prevState: any, formData: FormData) {
     };
   }
 }
+

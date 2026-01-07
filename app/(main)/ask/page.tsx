@@ -16,7 +16,7 @@ const page = async () => {
   })
   console.log(askedQuestionData)
   return (
-    <div>
+    <div className="relative">
       <AskForm />
       <YourQuestions askedQuestionData={askedQuestionData} />
     </div>
