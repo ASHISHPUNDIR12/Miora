@@ -2,6 +2,7 @@
 import deleteQuestion from '@/app/action'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { MdDelete } from 'react-icons/md'
 
 type Question = {
   id: string
@@ -34,14 +35,16 @@ const YourQuestions = ({ askedQuestionData }: {
         {
           askedQuestionData.map(({ question, id }) => (
 
-            <div key={id} className='flex justify-between mx-2'>
+            <div key={id} className='flex justify-between items-center mx-2'>
               <p onClick={() => router.push(`/ask/${id}`)} className='border flex-1 p-4 mx-4 rounded-2xl cursor-pointer font-bold  border-neutral-400  tracking-tight ' >{question}
 
               </p>
-              <button onClick={() => {
+              
+              <MdDelete onClick={() => {
                 setQuestionToDelete(id)
                 setShowalert(true)
-              }} className='bg-red-800 text-white tracking-tight focus:outline-none px-6  rounded-md cursor-pointer  hover:bg-red-800/80 '>Delete </button>
+              }} className='text-red-700 cursor-pointer hover:text-red-800/50 size-9 ' />
+
             </div>
           ))
         }
