@@ -6,7 +6,6 @@ import { auth, signIn } from "@/auth";
 import { revalidatePath } from "next/cache";
 import { success } from "zod";
 import { error } from "console";
-
 export async function SignUp(formData: FormData) {
   // get details from the form
   try {
@@ -136,7 +135,7 @@ export async function postAnswer(prevState: any, formData: FormData) {
   }
 }
 
-export default async function deleteQuestion(questionId: string | null) {
+export async function deleteQuestion(questionId: string | null) {
   const session = await auth();
   if (!session?.user?.id) {
     return {
@@ -160,6 +159,38 @@ export default async function deleteQuestion(questionId: string | null) {
     return {
       success: true,
       message: "question deleted successfully ",
+    };
+  } catch (err) {
+    return {
+      success: false,
+      error: err,
+    };
+  }
+}
+
+export async function writeBlog(prevState: any, formData: FormData) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) {
+    return {
+      success: false,
+      error: "user not found",
+    };
+  }
+  const blogs = formData.get("blog") as string;
+  const title = formData.get("title") as string;
+  try {
+    await prisma.blog.create({
+      data: {
+        content: blogs,
+        title: title,
+        userId: userId,
+      },
+    });
+    revalidatePath("/write");
+    return {
+      success: true,
+      message: "blog created succesfully ",
     };
   } catch (err) {
     return {
