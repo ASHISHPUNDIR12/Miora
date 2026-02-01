@@ -22,28 +22,33 @@ const YourQuestions = ({ askedQuestionData }: {
       return
     }
     deleteQuestion(questionIdToDelete)
-    console.log("deleted question id ", questionIdToDelete)
     setShowalert(false)
     setQuestionToDelete(null)
   }
 
   return (
-
-    <div>
-      <h1 className='text-center mt-4'>your asked questions</h1>
-      <div className=' mt-5 flex flex-col gap-5'>
+    // asked questions
+    <div className='mx-auto max-w-4xl px-2'>
+      <h1 className='text-center mt-8 mb-6 text-2xl font-bold text-neutral-800'>Your Asked Questions</h1>
+      <div className='mt-6 flex flex-col gap-4'>
         {
           askedQuestionData.map(({ question, id }) => (
 
-            <div key={id} className='flex justify-between items-center mx-2'>
-              <p onClick={() => router.push(`/ask/${id}`)} className='border flex-1 p-4 mx-4 rounded-2xl cursor-pointer font-bold  border-neutral-400  tracking-tight ' >{question}
-
+            <div key={id} className='group flex items-center gap-3 rounded-xl border border-neutral-200 bg-white p-5 shadow-sm transition-all duration-200 hover:shadow-md hover:border-amber-300'>
+              <p
+                onClick={() => router.push(`/ask/${id}`)}
+                className='flex-1 cursor-pointer text-base font-medium text-neutral-700 tracking-tight transition-colors group-hover:text-amber-900'
+              >
+                {question}
               </p>
 
-              <MdDelete onClick={() => {
-                setQuestionToDelete(id)
-                setShowalert(true)
-              }} className='text-red-700 cursor-pointer hover:text-red-800/50 size-9 ' />
+              <MdDelete
+                onClick={() => {
+                  setQuestionToDelete(id)
+                  setShowalert(true)
+                }}
+                className='size-6 cursor-pointer text-red-600 transition-all hover:scale-110 hover:text-red-700'
+              />
 
             </div>
           ))
@@ -84,8 +89,6 @@ const YourQuestions = ({ askedQuestionData }: {
             </div>
           )
         }
-
-
       </div>
 
     </div>

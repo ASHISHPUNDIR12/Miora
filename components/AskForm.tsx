@@ -8,7 +8,7 @@ const AskForm = () => {
     success: false,
     message: "",
   });
-  // effect to handle timer
+  // timer ke liye
   useEffect(() => {
     if (state.message) {
       setShowmsg(true);
@@ -20,45 +20,44 @@ const AskForm = () => {
   }, [state]);
 
   return (
-    <div className="mt-20 text-center">
-      <h1 className="text-2xl font-bold">Ask a thoughtful question</h1>
-      <p className="mt-3 text-neutral-500">
+    <div className="pt-12 pb-8 text-center">
+      <h1 className="text-3xl font-bold text-neutral-800">Ask a Thoughtful Question</h1>
+      <p className="mt-3 text-neutral-600">
         Your question helps others learn so be clear and specific.
       </p>
-      <div className="mx-auto mt-2 h-px w-110 bg-neutral-400"></div>
 
       <p
-        className={`mt-3 transition-all duration-300 ease-out ${showmsg ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"} ${state.success ? "text-green-500" : "text-red-500"} `}
+        className={`mt-4 transition-all duration-300 ease-out font-medium ${showmsg ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"} ${state.success ? "text-green-600" : "text-red-600"} `}
       >
         {state.message}
       </p>
 
-      <form action={formAction} className="mx-auto mt-5 max-w-2xl">
-        <div className="space-y-4">
+      <form action={formAction} className="mx-auto mt-8 max-w-3xl">
+        <div className="space-y-5">
           <div>
             <textarea
-            required
+              required
               name="textarea"
-              placeholder="Start your question with 'What','How','Why',etc  "
+              placeholder="Start your question with 'What', 'How', 'Why', etc."
               rows={6}
-              className="w-full resize-none rounded-lg border border-neutral-300 bg-neutral-100 px-4 pt-4 transition-all placeholder:text-neutral-400 focus:border-neutral-400 focus:outline-none"
+              className="w-full resize-none rounded-xl border-2 border-neutral-300 bg-white px-5 py-4 text-neutral-800 shadow-sm transition-all placeholder:text-neutral-400 focus:border-amber-500 focus:shadow-md focus:outline-none"
             />
-            <p className="mt-2 text-sm text-neutral-500">
-              Be specific and detailed to get better answers
+            <p className="mt-2 text-left text-sm text-neutral-500">
+              💡 Be specific and detailed to get better answers
             </p>
           </div>
-          <div className="flex gap-3 pt-4">
+          <div className="flex gap-3 pt-2">
             <button
               disabled={ispending}
               type="submit"
-              className="flex-1 rounded-lg bg-amber-900 px-6 py-3 font-medium text-white transition-all duration-200 hover:bg-amber-800 active:scale-95 hover:translate-y-[-4px] disabled:opacity-50"
+              className="flex-1 rounded-xl bg-linear-to-r from-amber-700 to-amber-900 px-8 py-3.5 font-semibold text-white shadow-lg transition-all duration-200 hover:from-amber-600 hover:to-amber-800 hover:shadow-xl active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {ispending ? "Posting...." : "Post Your Question"}
+              {ispending ? "Posting..." : "Post Your Question"}
             </button>
           </div>
         </div>
       </form>
-      <div className="mt-10 h-px w-full bg-neutral-400"></div>
+      <div className="mx-auto mt-12 h-px max-w-4xl bg-linear-to-r from-transparent via-neutral-300 to-transparent"></div>
     </div>
   );
 };
