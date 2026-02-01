@@ -30,12 +30,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${sourceSerif.variable} relative antialiased`}
       >
-        <div className="relative mx-auto max-w-270">
-          <Navbar />
-          <div className="absolute left-0 h-screen w-px bg-linear-to-b from-neutral-300/50 via-neutral-300 to-transparent"></div>
-          <div className="absolute right-0 h-screen w-px bg-linear-to-b from-neutral-300/50 via-neutral-300 to-transparent"></div>
-          {children}
-        </div>
+        {children}
       </body>
     </html>
   );

@@ -199,3 +199,96 @@ export async function writeBlog(prevState: any, formData: FormData) {
     };
   }
 }
+
+export async function postComment(prevState: any, formData: FormData) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) {
+    return {
+      success: false,
+      error: "You must be logged in to comment",
+    };
+  }
+  const content = formData.get("comment") as string;
+  const blogId = formData.get("blogId") as string;
+
+  if (!content || !blogId) {
+    return {
+      success: false,
+      error: "Missing required fields",
+    };
+  }
+
+  try {
+    await prisma.comment.create({
+      data: {
+        content: content,
+        userId: userId,
+        blogId: blogId,
+      },
+    });
+    revalidatePath(`/blogs/${blogId}`);
+    return {
+      success: true,
+      message: "Comment posted successfully",
+    };
+  } catch (err) {
+    console.error("Error posting comment:", err);
+    return {
+      success: false,
+      error: "Failed to post comment",
+    };
+  }
+}
+
+export async function toggleCommentVote(commentId: string) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return {
+      success: false,
+      error: "You must be logged in to vote",
+    };
+  }
+
+  try {
+    const existingVote = await prisma.vote.findFirst({
+      where: {
+        userId,
+        commentId,
+      },
+    });
+
+    if (existingVote) {
+      await prisma.vote.delete({
+        where: {
+          id: existingVote.id,
+        },
+      });
+    } else {
+      await prisma.vote.create({
+        data: {
+          type: "UPVOTE",
+          userId,
+          commentId,
+        },
+      });
+    }
+
+    // finding the blogId associated with the comment to revalidate the path
+    const comment = await prisma.comment.findUnique({
+      where: { id: commentId },
+      select: { blogId: true },
+    });
+
+    if (comment?.blogId) {
+      revalidatePath(`/blogs/${comment.blogId}`);
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error toggling vote:", error);
+    return { success: false, error: "Failed to vote" };
+  }
+}

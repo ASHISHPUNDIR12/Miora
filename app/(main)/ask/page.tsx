@@ -1,5 +1,3 @@
-
-
 import { auth } from "@/auth";
 import AskForm from "@/components/AskForm";
 import YourQuestions from "@/components/YourQuestions";
@@ -16,9 +14,11 @@ const page = async () => {
   })
   console.log(askedQuestionData)
   return (
-    <div className="relative">
-      <AskForm />
-      <YourQuestions askedQuestionData={askedQuestionData} />
+    <div className="min-h-screen  px-4 pb-16">
+      <div className="mx-auto max-w-5xl">
+        <AskForm />
+        <YourQuestions askedQuestionData={askedQuestionData} />
+      </div>
     </div>
   );
 };

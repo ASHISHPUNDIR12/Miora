@@ -1,10 +1,8 @@
-import { auth } from '@/auth'
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
-import React from 'react'
-
+0
 const page = async () => {
-  const session = await auth()
+  // get all the question user asked
   const allQuestions = await prisma.question.findMany({
     orderBy: {
       createdAt: 'desc'
@@ -32,7 +30,7 @@ const page = async () => {
               <span className="font-medium text-left flex-1 text-neutral-800 group-hover:text-amber-900 transition-colors">
                 {question.question}
               </span>
-              <button className="ml-4 border border-amber-900 bg-amber-900 text-white px-6 py-2 rounded-lg hover:bg-amber-800 transition-all duration-200 flex-shrink-0">
+              <button className="ml-4 border border-amber-900 bg-amber-900 text-white px-6 py-2 rounded-lg hover:bg-amber-800 transition-all duration-200 shrink-0">
                 Answer
               </button>
             </Link>

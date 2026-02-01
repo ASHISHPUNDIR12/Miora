@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
-import React from 'react'
 
 const page = async () => {
   const allBlogs = await prisma.blog.findMany({
@@ -36,20 +35,16 @@ const page = async () => {
                 href={`/blogs/${blog.id}`}
                 className="group border border-neutral-300 rounded-2xl p-6 hover:shadow-lg cursor-pointer transition-all duration-200 hover:border-neutral-400 bg-white flex flex-col"
               >
-                {/* Blog Title */}
                 <h2 className="text-xl font-bold text-neutral-800 group-hover:text-amber-900 transition-colors line-clamp-2 mb-3">
                   {blog.title}
                 </h2>
 
-                {/* Blog Content Preview */}
-                <p className="text-neutral-600 text-sm line-clamp-3 mb-4 flex-grow">
+                <p className="text-neutral-600 text-sm line-clamp-3 mb-4 grow">
                   {blog.content}
                 </p>
 
-                {/* Divider */}
                 <div className="h-px bg-neutral-200 mb-4"></div>
 
-                {/* Author and Date */}
                 <div className="flex justify-between items-center text-xs text-neutral-500">
                   <span className="font-medium">
                     By {blog.user.name || 'Anonymous'}

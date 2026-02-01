@@ -22,12 +22,12 @@
   @apply text-amber-950 transition-all duration-200 hover:translate-y-[-1px] hover:text-amber-950/50;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 /* f5f2ea */
 body {
   background: var(--background);
