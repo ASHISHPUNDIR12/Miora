@@ -4,8 +4,6 @@ import { prisma } from "@/lib/prisma";
 import { SignUpSchema } from "@/lib/authSchema";
 import { auth, signIn } from "@/auth";
 import { revalidatePath } from "next/cache";
-import { success } from "zod";
-import { error } from "console";
 export async function SignUp(formData: FormData) {
   // get details from the form
   try {
@@ -289,6 +287,73 @@ export async function toggleCommentVote(commentId: string) {
     return { success: true };
   } catch (error) {
     console.error("Error toggling vote:", error);
+    return { success: false, error: "Failed to vote" };
+  }
+}
+
+export async function toggleQuestionVote(questionId: string) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return {
+      success: false,
+      error: "You must be logged in to vote",
+    };
+  }
+
+  try {
+    const existingVote = await prisma.vote.findFirst({
+      where: {
+        userId,
+        questionId,
+      },
+    });
+
+    if (existingVote) {
+      await prisma.$transaction([
+        prisma.vote.delete({
+          where: {
+            id: existingVote.id,
+          },
+        }),
+        prisma.question.update({
+          where: {
+            id: questionId,
+          },
+          data: {
+            votesCount: {
+              decrement: 1,
+            },
+          },
+        }),
+      ]);
+    } else {
+      await prisma.$transaction([
+        prisma.vote.create({
+          data: {
+            type: "UPVOTE",
+            userId,
+            questionId,
+          },
+        }),
+        prisma.question.update({
+          where: {
+            id: questionId,
+          },
+          data: {
+            votesCount: {
+              increment: 1,
+            },
+          },
+        }),
+      ]);
+    }
+
+    revalidatePath("/answers");
+    return { success: true };
+  } catch (error) {
+    console.error("Error toggling question vote:", error);
     return { success: false, error: "Failed to vote" };
   }
 }
