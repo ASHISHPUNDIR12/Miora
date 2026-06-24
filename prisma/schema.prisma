@@ -18,12 +18,8 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
-
-  // Timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  // Relations
   accounts Account[]
   sessions Session[]
   question Question[]
@@ -36,17 +32,13 @@ model User {
 }
 
 model Answer {
-  id        String    @id @default(cuid())
-  content   String    @db.Text
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  // user who created answer
-  userId    String
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  // comment on this answer
-  comment   Comment[]
-
-  // answer to which question
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment Comment[]
   questionId String
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
   votes      Vote[]
@@ -62,7 +54,6 @@ model Question {
   question   String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  // user who created question
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   answer     Answer[]
@@ -81,7 +72,6 @@ model Blog {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   userId    String
-  // user who created blog
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   votes     Vote[]
   comment   Comment[]
@@ -93,13 +83,10 @@ model Blog {
 model Comment {
   id        String   @id @default(cuid())
   content   String
-  // user who commented
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  // comment on blog
   blogId    String?
   blog      Blog?    @relation(fields: [blogId], references: [id], onDelete: Cascade)
-  // comment on answer
   answerId  String?
   answer    Answer?  @relation(fields: [answerId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
@@ -114,23 +101,18 @@ model Vote {
   id   String   @id @default(cuid())
   type VoteType
 
-  // Who voted
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  // Vote on Answer
   answerId String?
   answer   Answer? @relation(fields: [answerId], references: [id], onDelete: Cascade)
 
-  // Vote on Blog
   blogId String?
   blog   Blog?   @relation(fields: [blogId], references: [id], onDelete: Cascade)
 
-  // vote on question
   questionId String?
   question   Question? @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
-  // vote on comment
   commentId String?
   comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
 

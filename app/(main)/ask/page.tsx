@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 const page = async () => {
   const session = await auth()
   if (!session) redirect("/signin")
+    
   const askedQuestionData = await prisma.question.findMany({
     where: {
       userId: session.user?.id

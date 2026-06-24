@@ -2,8 +2,8 @@ import React from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="bg-login   flex h-screen w-full">
-      <section className=" dark:bg-neutral-200  sm:bg-login relative hidden md:flex sm:w-[60%] flex-col items-center justify-center">
+    <div className="bg-login flex h-screen w-full">
+      <section className="sm:bg-login relative hidden flex-col items-center justify-center sm:w-[60%] md:flex dark:bg-neutral-200">
         <div className="absolute left-60 h-screen w-px bg-linear-to-b from-stone-200 via-stone-500 to-stone-200"></div>
         <div className="absolute right-60 h-screen w-px bg-linear-to-b from-stone-200 via-stone-500 to-stone-200"></div>
 
@@ -16,7 +16,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         </div>
         <div className="h-px w-full bg-linear-to-r from-stone-200 via-stone-500 to-stone-200"></div>
       </section>
-      <section className="flex w-full  lg:w-[40%] items-center justify-center sm:rounded-l-4xl dark:bg-background bg-white">
+      <section className="dark:bg-background flex w-full items-center justify-center bg-white sm:rounded-l-4xl lg:w-[40%]">
         {children}
       </section>
     </div>

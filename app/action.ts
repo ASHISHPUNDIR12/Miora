@@ -357,3 +357,79 @@ export async function toggleQuestionVote(questionId: string) {
     return { success: false, error: "Failed to vote" };
   }
 }
+
+export async function toggleAnswerVote(answerId: string) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return {
+      success: false,
+      error: "You must be logged in to vote",
+    };
+  }
+
+  try {
+    const existingVote = await prisma.vote.findFirst({
+      where: {
+        userId,
+        answerId,
+      },
+    });
+
+    if (existingVote) {
+      await prisma.$transaction([
+        prisma.vote.delete({
+          where: {
+            id: existingVote.id,
+          },
+        }),
+        prisma.answer.update({
+          where: {
+            id: answerId,
+          },
+          data: {
+            votesCount: {
+              decrement: 1,
+            },
+          },
+        }),
+      ]);
+    } else {
+      await prisma.$transaction([
+        prisma.vote.create({
+          data: {
+            type: "UPVOTE",
+            userId,
+            answerId,
+          },
+        }),
+        prisma.answer.update({
+          where: {
+            id: answerId,
+          },
+          data: {
+            votesCount: {
+              increment: 1,
+            },
+          },
+        }),
+      ]);
+    }
+
+    // Get the answer to find the questionId for revalidation
+    const answer = await prisma.answer.findUnique({
+      where: { id: answerId },
+      select: { questionId: true },
+    });
+
+    if (answer?.questionId) {
+      revalidatePath(`/ask/${answer.questionId}`);
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("Error toggling answer vote:", error);
+    return { success: false, error: "Failed to vote" };
+  }
+}

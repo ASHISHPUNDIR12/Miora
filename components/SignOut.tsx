@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { signOut } from "next-auth/react";
 
 const SignOut = () => {
@@ -6,7 +6,7 @@ const SignOut = () => {
     <div>
       <button
         onClick={async () => {
-          await signOut({callbackUrl : "/"});
+          await signOut({ callbackUrl: "/" });
         }}
       >
         sign out{" "}

@@ -21,13 +21,15 @@ const AskForm = () => {
 
   return (
     <div className="pt-12 pb-8 text-center">
-      <h1 className="text-3xl font-bold text-neutral-800">Ask a Thoughtful Question</h1>
+      <h1 className="text-3xl font-bold text-neutral-800">
+        Ask a Thoughtful Question
+      </h1>
       <p className="mt-3 text-neutral-600">
         Your question helps others learn so be clear and specific.
       </p>
 
       <p
-        className={`mt-4 transition-all duration-300 ease-out font-medium ${showmsg ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"} ${state.success ? "text-green-600" : "text-red-600"} `}
+        className={`mt-4 font-medium transition-all duration-300 ease-out ${showmsg ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"} ${state.success ? "text-green-600" : "text-red-600"} `}
       >
         {state.message}
       </p>
@@ -50,7 +52,7 @@ const AskForm = () => {
             <button
               disabled={ispending}
               type="submit"
-              className="flex-1 rounded-xl bg-linear-to-r from-amber-700 to-amber-900 px-8 py-3.5 font-semibold text-white shadow-lg transition-all duration-200 hover:from-amber-600 hover:to-amber-800 hover:shadow-xl active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 rounded-xl bg-linear-to-r from-amber-700 to-amber-900 px-8 py-3.5 font-semibold text-white shadow-lg transition-all duration-200 hover:from-amber-600 hover:to-amber-800 hover:shadow-xl active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {ispending ? "Posting..." : "Post Your Question"}
             </button>

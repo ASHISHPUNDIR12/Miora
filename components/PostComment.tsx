@@ -1,14 +1,14 @@
-"use client"
-import { postComment } from '@/app/action'
-import React, { useActionState, useEffect, useState } from 'react'
+"use client";
+import { postComment } from "@/app/action";
+import React, { useActionState, useEffect, useState } from "react";
 
 const PostComment = ({ blogId }: { blogId: string }) => {
   const [showmsg, setShowmsg] = useState(false);
 
   const [state, formAction, ispending] = useActionState(postComment, {
     success: false,
-    message: ""
-  })
+    message: "",
+  });
 
   useEffect(() => {
     if (state.message) {
@@ -22,7 +22,9 @@ const PostComment = ({ blogId }: { blogId: string }) => {
 
   return (
     <div className="py-4">
-      <h3 className="mb-4 text-xl font-bold text-neutral-800">Leave a Comment</h3>
+      <h3 className="mb-4 text-xl font-bold text-neutral-800">
+        Leave a Comment
+      </h3>
 
       <p
         className={`mb-3 font-medium transition-all duration-300 ease-out ${showmsg ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"} ${state.success ? "text-green-600" : "text-red-600"} `}
@@ -52,7 +54,7 @@ const PostComment = ({ blogId }: { blogId: string }) => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default PostComment
+export default PostComment;

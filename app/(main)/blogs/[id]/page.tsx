@@ -43,7 +43,6 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   }
 
   // sort kero comment based on vote
-
   const commentsWithStatus = blog.comment.map(c => ({
     ...c,
     voteCount: c.votes.length,

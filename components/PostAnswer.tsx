@@ -1,14 +1,14 @@
-"use client"
-import { postAnswer } from '@/app/action'
-import React, { useActionState, useEffect, useState } from 'react'
+"use client";
+import { postAnswer } from "@/app/action";
+import React, { useActionState, useEffect, useState } from "react";
 
 const PostAnswer = ({ id }: { id: string }) => {
   const [showmsg, setShowmsg] = useState(false);
 
   const [state, formAction, ispending] = useActionState(postAnswer, {
     success: false,
-    message: ""
-  })
+    message: "",
+  });
 
   useEffect(() => {
     if (state.message) {
@@ -55,7 +55,7 @@ const PostAnswer = ({ id }: { id: string }) => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default PostAnswer
+export default PostAnswer;

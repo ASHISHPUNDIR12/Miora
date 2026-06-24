@@ -6,7 +6,6 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
 const AuthForm = ({ type }: { type: "signin" | "signup" }) => {
   const router = useRouter();
   const [error, setError] = useState("");
@@ -29,10 +28,10 @@ const AuthForm = ({ type }: { type: "signin" | "signup" }) => {
         } else {
           setError(
             res.errors?.email?.[0] ||
-              res.errors?.password?.[0] ||
-              res.errors?.name?.[0] ||
-              res.message ||
-              "Something went wrong",
+            res.errors?.password?.[0] ||
+            res.errors?.name?.[0] ||
+            res.message ||
+            "Something went wrong",
           );
         }
       } else {
@@ -64,13 +63,13 @@ const AuthForm = ({ type }: { type: "signin" | "signup" }) => {
     }
   };
   return (
-    <div className="max-w-90 rounded-4xl p-6 text-center shadow-[0_3px_10px_rgb(0,0,0,0.2)] sm:min-h-130 sm:min-w-100 dark:shadow-neutral-300">
-      <div className="font-sourceserif mt-4 text-3xl font-bold text-yellow-950 dark:text-neutral-200">
+    <div className="max-w-90 rounded-4xl p-6 text-center shadow-[0_3px_10px_rgb(0,0,0,0.2)] sm:min-h-130 sm:min-w-100">
+      <div className="font-sourceserif mt-4 text-3xl  font-bold text-yellow-950 ">
         {type === "signin" ? <h1>Login</h1> : <h1>Register</h1>}
       </div>
-      <p className="my-4 tracking-tighter dark:text-slate-100">
+      <p className="my-4 tracking-tighter ">
         Enter your details and bless yourself <br /> with
-        <span className="text-amber-700 dark:text-yellow-600"> Miora</span>
+        <span className="text-amber-700"> Miora</span>
       </p>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         {type === "signup" && (
@@ -80,7 +79,7 @@ const AuthForm = ({ type }: { type: "signin" | "signup" }) => {
             placeholder="Enter your full name"
             required
             disabled={isLoading}
-            className="rounded-sm border border-neutral-300 p-1 placeholder:text-neutral-400 focus:ring focus:ring-amber-800 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-700 dark:placeholder:text-neutral-300"
+            className="rounded-sm border border-neutral-300 p-1 placeholder:text-neutral-400 focus:ring focus:ring-amber-800 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
           />
         )}
         <input
@@ -89,7 +88,7 @@ const AuthForm = ({ type }: { type: "signin" | "signup" }) => {
           placeholder="Enter Your Email"
           required
           disabled={isLoading}
-          className="rounded-sm border border-neutral-300 p-1 placeholder:text-neutral-400 focus:ring focus:ring-amber-800 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-700 dark:placeholder:text-neutral-300"
+          className="rounded-sm border border-neutral-300 p-1 placeholder:text-neutral-400 focus:ring focus:ring-amber-800 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
         />
         <input
           name="password"
@@ -97,11 +96,11 @@ const AuthForm = ({ type }: { type: "signin" | "signup" }) => {
           placeholder="Password"
           required
           disabled={isLoading}
-          className="rounded-sm border border-neutral-300 p-1 placeholder:text-neutral-400 focus:ring focus:ring-amber-800 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:border-neutral-700 dark:placeholder:text-neutral-300"
+          className="rounded-sm border border-neutral-300 p-1 placeholder:text-neutral-400 focus:ring focus:ring-amber-800 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
         />
 
         {error && (
-          <div className="rounded-sm bg-red-50 p-2 text-sm text-red-600 dark:bg-red-900/20">
+          <div className="rounded-sm bg-red-50 p-2 text-sm text-red-600">
             {error}
           </div>
         )}
@@ -150,10 +149,10 @@ const AuthForm = ({ type }: { type: "signin" | "signup" }) => {
 
       <p className="my-5">—— Or Continue with ——</p>
       <div className="flex justify-around">
-        <div className="items-center justify-center rounded-lg border border-neutral-300 px-3 py-1 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-900">
+        <div className="items-center justify-center rounded-lg border border-neutral-300 px-3 py-1 hover:bg-neutral-100">
           <SignInWithGithub />
         </div>
-        <div className="items-center justify-center rounded-lg border border-neutral-300 px-3 py-1 hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-900">
+        <div className="items-center justify-center rounded-lg border border-neutral-300 px-3 py-1 hover:bg-neutral-100">
           <SignInWithGoogle />
         </div>
       </div>

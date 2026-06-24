@@ -50,7 +50,7 @@ const CommentVote = ({ commentId, initialVotes, initialHasVoted }: CommentVotePr
         <path d="M12.781 2.375a.999.999 0 0 0-1.562 0l-9 11A1.002 1.002 0 0 0 3 15h6v7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-7h6a1.002 1.002 0 0 0 .781-1.625l-9-11z" />
       </svg>
       <span>
-        {optimisticState.votes > 0 ? optimisticState.votes : 'Upvote'}
+        {optimisticState.votes > 0 ? optimisticState.votes : 'upvote'}
       </span>
     </button>
   )

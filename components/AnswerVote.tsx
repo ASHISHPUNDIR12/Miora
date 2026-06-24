@@ -1,18 +1,18 @@
 "use client";
-import { toggleQuestionVote } from "@/app/action";
+import { toggleAnswerVote } from "@/app/action";
 import React, { useOptimistic, startTransition } from "react";
 
-interface QuestionVoteProps {
-  questionId: string;
+interface AnswerVoteProps {
+  answerId: string;
   initialVotes: number;
   initialHasVoted: boolean;
 }
 
-const QuestionVote = ({
-  questionId,
+const AnswerVote = ({
+  answerId,
   initialVotes,
   initialHasVoted,
-}: QuestionVoteProps) => {
+}: AnswerVoteProps) => {
   const [optimisticState, addOptimisticState] = useOptimistic(
     { votes: initialVotes, hasVoted: initialHasVoted },
     (state, action: { type: "toggle" }) => {
@@ -28,9 +28,8 @@ const QuestionVote = ({
       addOptimisticState({ type: "toggle" });
     });
 
-    const result = await toggleQuestionVote(questionId);
+    const result = await toggleAnswerVote(answerId);
     if (!result.success) {
-      // Revert if failed - theoretically we could pass a revert action but standard revalidation should fix it
       console.error(result.error);
     }
   };
@@ -38,7 +37,7 @@ const QuestionVote = ({
   return (
     <button
       onClick={handleVote}
-      className={`flex items-center gap-1.5 text-sm font-medium transition-colors ${
+      className={`flex shrink-0 items-center gap-1.5 text-sm font-medium transition-colors ${
         optimisticState.hasVoted
           ? "rounded-md bg-amber-50 px-2 py-1 text-amber-600"
           : "rounded-md px-2 py-1 text-neutral-500 hover:bg-neutral-50 hover:text-amber-600"
@@ -55,10 +54,10 @@ const QuestionVote = ({
         <path d="M12.781 2.375a.999.999 0 0 0-1.562 0l-9 11A1.002 1.002 0 0 0 3 15h6v7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-7h6a1.002 1.002 0 0 0 .781-1.625l-9-11z" />
       </svg>
       <span>
-        {optimisticState.votes > 0 ? optimisticState.votes : "Upvote"}
+        {optimisticState.votes > 0 ? optimisticState.votes : "upvote"}
       </span>
     </button>
   );
 };
 
-export default QuestionVote;
+export default AnswerVote;

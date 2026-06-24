@@ -38,7 +38,7 @@ const page = () => {
           <div>
             <input
               required
-              className="w-full rounded-lg border border-neutral-300 bg-neutral-100 px-4 py-3 transition-all placeholder:text-neutral-400 focus:border-neutral-400 focus:outline-none"
+              className="w-full rounded-lg border border-neutral-300 bg-neutral-100 px-4 py-3 transition-all placeholder:text-neutral-400 focus:border-amber-500 focus:outline-none"
               type="text"
               placeholder="Blog Title"
               name="title"
@@ -49,7 +49,7 @@ const page = () => {
               name="blog"
               placeholder="Write useful blogs to provide real value..."
               rows={8}
-              className="mt-4 w-full resize-none rounded-lg border border-neutral-300 bg-neutral-100 px-4 pt-4 transition-all placeholder:text-neutral-400 focus:border-neutral-400 focus:outline-none"
+              className="mt-4 w-full resize-none rounded-lg border border-neutral-300 bg-neutral-100 px-4 pt-4 transition-all placeholder:text-neutral-400 focus:border-amber-500 focus:outline-none"
             />
             <p className="mt-2 text-sm text-neutral-500">
               Write meaningful content that helps others learn
@@ -59,7 +59,7 @@ const page = () => {
             <button
               disabled={pending}
               type="submit"
-              className="flex-1 rounded-lg bg-amber-900 px-6 py-3 font-medium text-white transition-all duration-200 hover:bg-amber-800 active:scale-95 hover:translate-y-[-4px] disabled:opacity-50"
+              className="flex-1 rounded-lg bg-amber-900 px-6 py-3 font-medium text-white transition-all duration-200 hover:translate-y-[-4px] hover:bg-amber-800 active:scale-95 disabled:opacity-50"
             >
               {pending ? "Publishing..." : "Publish Blog"}
             </button>
